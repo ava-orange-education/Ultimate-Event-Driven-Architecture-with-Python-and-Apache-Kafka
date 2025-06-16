@@ -1,0 +1,42 @@
+# The role of this server. Setting this puts us in KRaft mode
+process.roles=broker,controller
+
+# The node id associated with this instance's roles
+node.id=1
+
+# The connect string for the controller quorum
+controller.quorum.voters=1@localhost:9093
+
+listeners=CONTROLLER://:9093,SASL_SSL://:9092
+advertised.listeners=SASL_SSL://localhost:9092
+
+# Specify which listener is used for controller communication
+controller.listener.names=CONTROLLER
+
+listener.security.protocol.map=CONTROLLER:PLAINTEXT,SASL_SSL:SASL_SSL
+
+sasl.enabled.mechanisms=OAUTHBEARER
+sasl.mechanism.inter.broker.protocol=OAUTHBEARER
+security.inter.broker.protocol=SASL_SSL
+
+# SSL for inter-broker and client communication
+ssl.keystore.location=/var/kafka/ssl/eda.kafka.keystore.p12
+ssl.keystore.password=eda.kafka
+ssl.key.password=eda.kafka
+ssl.truststore.location=/var/kafka/ssl/eda.kafka.truststore.p12
+ssl.truststore.password=eda.kafka
+ssl.enabled.protocols=TLSv1.2,TLSv1.1
+ssl.keystore.type=PKCS12
+ssl.truststore.type=PKCS12
+ssl.client.auth=none
+
+# JAAS configuration for SASL/OAUTHBEARER
+listener.name.sasl_ssl.oauthbearer.sasl.login.callback.handler.class=org.apache.kafka.common.security.oauthbearer.secured.OAuthBearerLoginCallbackHandler
+sasl.oauthbearer.token.endpoint.url=http://localhost:8080/realms/eda/protocol/openid-connect/token
+listener.name.sasl_ssl.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+  clientId="eda.client" \
+  ClientSecret="<client-secret>" \
+  grantType="client_credentials" \
+  scope="openid" \
+  oauthbearer.token.validator.class=org.apache.kafka.common.security.oauthbearer.secured.AccessTokenValidator;
+

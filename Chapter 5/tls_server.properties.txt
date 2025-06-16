@@ -1,0 +1,26 @@
+# Enable KRaft mode
+process.roles=broker,controller
+node.id=1
+controller.quorum.voters=1@localhost:9093
+# Enable SSL on the broker listener
+listeners=SSL://:9092,CONTROLLER://:9093
+advertised.listeners=SSL://<broker-host>:9092,CONTROLLER://<broker-host>:9093
+listener.security.protocol.map=SSL:SSL,CONTROLLER:SSL
+
+controller.listener.names=CONTROLLER
+inter.broker.listener.name=SSL
+
+# Configure keystore and truststore
+ssl.keystore.location=/path/to/eda.kafka.keystore.p12
+ssl.keystore.password=<keystore-password>
+ssl.key.password=<key-password>
+ssl.truststore.location=/path/to/eda.kafka.truststore.p12
+ssl.truststore.password=<truststore-password>
+ssl.enabled.protocols=TLSv1.2,TLSv1.1
+ssl.keystore.type=PKCS12
+ssl.truststore.type=PKCS12
+ssl.secure.random.implementation=SHA1PRNG
+
+# Enable optional TLS settings
+ssl.client.auth=none  # Options: none, requested, required
+

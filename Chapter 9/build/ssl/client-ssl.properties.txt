@@ -1,0 +1,13 @@
+security.protocol=SSL
+ssl.keystore.location=/var/kafka/config/eda.kafka.client.keystore.p12
+ssl.keystore.password=eda.kafka
+ssl.key.password=eda.kafka
+ssl.truststore.location=/var/kafka/config/eda.kafka.client.truststore.p12
+ssl.truststore.password=eda.kafka
+ssl.enabled.protocols=TLSv1.2,TLSv1.1
+ssl.keystore.type=PKCS12
+ssl.truststore.type=PKCS12
+ssl.endpoint.identification.algorithm=
+
+
+
